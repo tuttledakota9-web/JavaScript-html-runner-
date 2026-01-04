@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Web Editor</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #0e0e0e;
+    color: #fff;
+    font-family: monospace;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background: #161616;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .tabs {
+    display: flex;
+    background: #222;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    border-right: 1px solid #333;
+  }
+
+  .tab.active {
+    background: #333;
+  }
+
+  textarea {
+    flex: 1;
+    background: #111;
+    color: #0f0;
+    border: none;
+    padding: 12px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    display: none;
+  }
+
+  textarea.active {
+    display: block;
+  }
+
+  .controls {
+    display: flex;
+  }
+
+  button {
+    flex: 1;
+    background: #1f1f1f;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  iframe {
+    height: 35%;
+    border: none;
+    background: white;
+  }
+</style>
+</head>
+
+<body>
+
+<header>📱 Mobile Code Editor</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('html')">HTML</div>
+  <div class="tab" onclick="switchTab('css')">CSS</div>
+  <div class="tab" onclick="switchTab('js')">JS</div>
+</div>
+
+<textarea id="html" class="active">
+<h1>Hello Mobile 👋</h1>
+<p>Edit and tap Run</p>
+</textarea>
+
+<textarea id="css">
+body {
+  background: #fafafa;
+  color: #222;
+  text-align: center;
+}
+</textarea>
+
+<textarea id="js">
+console.log("Mobile JS running");
+</textarea>
+
+<div class="controls">
+  <button onclick="runCode()">▶ Run</button>
+</div>
+
+<iframe id="preview"></iframe>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('textarea').forEach(a => a.classList.remove('active'));
+
+  document.querySelector(`.tab[onclick*="${tab}"]`).classList.add('active');
+  document.getElementById(tab).classList.add('active');
+}
+
+function runCode() {
+  const html = document.getElementById("html").value;
+  const css = "<style>" + document.getElementById("css").value + "</style>";
+  const js = "<script>" + document.getElementById("js").value + "<\/script>";
+
+  document.getElementById("preview").srcdoc = html + css + js;
+}
+</script>
+
+</body>
+</html>
